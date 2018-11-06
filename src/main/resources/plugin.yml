@@ -1,0 +1,3 @@
+name: Looty
+version: @version@
+main: com.derongan.minecraft.looty.Looty
