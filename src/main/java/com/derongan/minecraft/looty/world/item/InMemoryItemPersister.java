@@ -1,12 +1,13 @@
-package com.derongan.minecraft.looty;
+package com.derongan.minecraft.looty.world.item;
 
-import com.derongan.minecraft.looty.world.SimpleChunk;
-import com.derongan.minecraft.looty.world.ChunkUtils;
+import com.derongan.minecraft.looty.world.chunk.ChunkUtils;
+import com.derongan.minecraft.looty.world.chunk.SimpleLocation;
+import com.derongan.minecraft.looty.world.chunk.SimpleChunk;
 
 import java.util.*;
 
 public class InMemoryItemPersister implements ItemPersiter {
-    Map<SimpleChunk, Map<Location, Item>> chunkMap = new HashMap<>();
+    Map<SimpleChunk, Map<SimpleLocation, Item>> chunkMap = new HashMap<>();
 
     @Override
     public Collection<Item> getFromChunk(SimpleChunk simpleChunk) {
@@ -17,7 +18,7 @@ public class InMemoryItemPersister implements ItemPersiter {
     public void create(Item item) {
         SimpleChunk simpleChunk = ChunkUtils.getChunkForLocation(item.getLocation());
 
-        Map<Location, Item> itemMap = this.chunkMap.computeIfAbsent(simpleChunk, (a)->new HashMap<Location, Item>());
+        Map<SimpleLocation, Item> itemMap = this.chunkMap.computeIfAbsent(simpleChunk, (a)->new HashMap<SimpleLocation, Item>());
 
         if(itemMap.get(item.getLocation()) == null){
             itemMap.put(item.getLocation(), item);
@@ -36,7 +37,7 @@ public class InMemoryItemPersister implements ItemPersiter {
     public void delete(Item item) {
         SimpleChunk simpleChunk = ChunkUtils.getChunkForLocation(item.getLocation());
 
-        Map<Location, Item> itemMap = this.chunkMap.computeIfAbsent(simpleChunk, (a)->new HashMap<Location, Item>());
+        Map<SimpleLocation, Item> itemMap = this.chunkMap.computeIfAbsent(simpleChunk, (a)->new HashMap<SimpleLocation, Item>());
 
         if(itemMap.get(item.getLocation()) != null){
             itemMap.remove(item.getLocation());
@@ -44,7 +45,7 @@ public class InMemoryItemPersister implements ItemPersiter {
     }
 
     @Override
-    public Optional<Item> getFromLocation(Location location) {
+    public Optional<Item> getFromLocation(SimpleLocation location) {
         SimpleChunk simpleChunk = ChunkUtils.getChunkForLocation(location);
 
         if (chunkMap.containsKey(simpleChunk)) {

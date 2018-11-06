@@ -1,6 +1,7 @@
-package com.derongan.minecraft.looty;
+package com.derongan.minecraft.looty.world.item;
 
-import com.derongan.minecraft.looty.world.SimpleChunk;
+import com.derongan.minecraft.looty.world.chunk.SimpleLocation;
+import com.derongan.minecraft.looty.world.chunk.SimpleChunk;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -23,7 +24,7 @@ public class ItemManagerImpl implements ItemManager {
     }
 
     @Override
-    public Optional<Item> getItem(Location location) {
+    public Optional<Item> getItem(SimpleLocation location) {
         return itemPersiter.getFromLocation(location);
     }
 

@@ -1,7 +1,8 @@
-package com.derongan.minecraft.looty;
+package com.derongan.minecraft.looty.world.entity;
 
+import com.derongan.minecraft.looty.world.chunk.SimpleLocation;
+import com.derongan.minecraft.looty.world.item.Item;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -10,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 public class ArmorStandItemCreationStrategy implements EntityItemCreationStrategy {
     @Override
     public Entity createEntity(Item item) {
-        Location location = item.getLocation();
+        SimpleLocation location = item.getLocation();
 
         World world = Bukkit.getWorld(location.getWorld());
 

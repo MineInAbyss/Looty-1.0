@@ -1,26 +1,28 @@
-package com.derongan.minecraft.looty.world;
+package com.derongan.minecraft.looty.world.chunk;
 
-public class SimpleChunkImpl implements SimpleChunk {
+/**
+ * Instead of using {@link org.bukkit.Chunk} we create
+ * a chunk does not require a world instance but rather just a world name
+ * Additionally it does not provide access to blocks
+ */
+public class SimpleChunk {
     private int x,z;
     private String worldName;
 
-    public SimpleChunkImpl(int x, int z, String worldName) {
+    public SimpleChunk(int x, int z, String worldName) {
         this.x = x;
         this.z = z;
         this.worldName = worldName;
     }
 
-    @Override
     public int getX() {
         return x;
     }
 
-    @Override
     public int getZ() {
         return z;
     }
 
-    @Override
     public String getWorld() {
         return worldName;
     }
@@ -28,9 +30,9 @@ public class SimpleChunkImpl implements SimpleChunk {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SimpleChunkImpl)) return false;
+        if (!(o instanceof SimpleChunk)) return false;
 
-        SimpleChunkImpl that = (SimpleChunkImpl) o;
+        SimpleChunk that = (SimpleChunk) o;
 
         if (getX() != that.getX()) return false;
         if (getZ() != that.getZ()) return false;

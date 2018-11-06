@@ -1,34 +1,33 @@
-package com.derongan.minecraft.looty.world;
+package com.derongan.minecraft.looty.world.chunk;
 
-import com.derongan.minecraft.looty.Location;
-
-public class LocationImpl implements Location {
+/**
+ * Instead of using {@link org.bukkit.Location} we create
+ * a location that is bound to integer values. Additionally
+ * it does not require a world instance but rather just a world name
+ */
+public class SimpleLocation {
     private int x,y,z;
     private String worldName;
 
-    public LocationImpl(int x, int y, int z, String worldName) {
+    public SimpleLocation(int x, int y, int z, String worldName) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.worldName = worldName;
     }
 
-    @Override
     public int getX() {
         return x;
     }
 
-    @Override
     public int getY() {
         return y;
     }
 
-    @Override
     public int getZ() {
         return z;
     }
 
-    @Override
     public String getWorld() {
         return worldName;
     }
@@ -36,9 +35,9 @@ public class LocationImpl implements Location {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof LocationImpl)) return false;
+        if (!(o instanceof SimpleLocation)) return false;
 
-        LocationImpl location = (LocationImpl) o;
+        SimpleLocation location = (SimpleLocation) o;
 
         if (getX() != location.getX()) return false;
         if (getY() != location.getY()) return false;

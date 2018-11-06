@@ -1,6 +1,6 @@
-package com.derongan.minecraft.looty.world;
+package com.derongan.minecraft.looty.world.chunk;
 
-import com.derongan.minecraft.looty.EntityItemManager;
+import com.derongan.minecraft.looty.world.entity.EntityItemManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;

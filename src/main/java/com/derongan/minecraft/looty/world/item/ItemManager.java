@@ -1,6 +1,7 @@
-package com.derongan.minecraft.looty;
+package com.derongan.minecraft.looty.world.item;
 
-import com.derongan.minecraft.looty.world.SimpleChunk;
+import com.derongan.minecraft.looty.world.chunk.SimpleLocation;
+import com.derongan.minecraft.looty.world.chunk.SimpleChunk;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -12,7 +13,7 @@ import java.util.Optional;
 public interface ItemManager {
     void addItem(Item item);
     void removeItem(Item item);
-    Optional<Item> getItem(Location location);
+    Optional<Item> getItem(SimpleLocation location);
 
     Collection<Item> getItems(SimpleChunk chunk);
 }

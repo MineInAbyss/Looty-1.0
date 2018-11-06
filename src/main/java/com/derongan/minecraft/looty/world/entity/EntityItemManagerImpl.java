@@ -1,7 +1,9 @@
-package com.derongan.minecraft.looty;
+package com.derongan.minecraft.looty.world.entity;
 
-import com.derongan.minecraft.looty.world.ChunkUtils;
-import com.derongan.minecraft.looty.world.SimpleChunk;
+import com.derongan.minecraft.looty.world.chunk.SimpleChunk;
+import com.derongan.minecraft.looty.world.item.Item;
+import com.derongan.minecraft.looty.world.item.ItemManager;
+import com.derongan.minecraft.looty.world.chunk.ChunkUtils;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Entity;
 

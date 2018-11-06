@@ -1,8 +1,14 @@
 package com.derongan.minecraft.looty;
 
-import com.derongan.minecraft.looty.world.ChunkListener;
-import com.derongan.minecraft.looty.world.LocationImpl;
-import org.bukkit.Bukkit;
+import com.derongan.minecraft.looty.world.chunk.ChunkListener;
+import com.derongan.minecraft.looty.world.chunk.SimpleLocation;
+import com.derongan.minecraft.looty.world.entity.ArmorStandItemCreationStrategy;
+import com.derongan.minecraft.looty.world.entity.EntityItemManager;
+import com.derongan.minecraft.looty.world.entity.EntityItemManagerImpl;
+import com.derongan.minecraft.looty.world.item.InMemoryItemPersister;
+import com.derongan.minecraft.looty.world.item.Item;
+import com.derongan.minecraft.looty.world.item.ItemManager;
+import com.derongan.minecraft.looty.world.item.ItemManagerImpl;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,8 +27,8 @@ public final class Looty extends JavaPlugin {
 
         itemManager.addItem(new Item() {
             @Override
-            public Location getLocation() {
-                return new LocationImpl(1000,200,1000, "world");
+            public SimpleLocation getLocation() {
+                return new SimpleLocation(1000,200,1000, "world");
             }
 
             @Override

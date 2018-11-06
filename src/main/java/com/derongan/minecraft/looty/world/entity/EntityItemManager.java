@@ -1,4 +1,4 @@
-package com.derongan.minecraft.looty;
+package com.derongan.minecraft.looty.world.entity;
 
 import org.bukkit.Chunk;
 
