@@ -1,7 +1,7 @@
 package com.derongan.minecraft.looty.world.item;
 
-import com.derongan.minecraft.looty.world.chunk.SimpleLocation;
 import com.derongan.minecraft.looty.world.chunk.SimpleChunk;
+import com.derongan.minecraft.looty.world.chunk.SimpleLocation;
 
 import java.util.Collection;
 import java.util.Optional;

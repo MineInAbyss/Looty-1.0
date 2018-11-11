@@ -1,0 +1,2 @@
+include ':annotations'
+project(':annotations').projectDir = file('../annotations')

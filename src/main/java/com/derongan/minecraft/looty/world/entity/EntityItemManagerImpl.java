@@ -1,9 +1,11 @@
 package com.derongan.minecraft.looty.world.entity;
 
+import com.derongan.minecraft.looty.world.chunk.ChunkUtils;
 import com.derongan.minecraft.looty.world.chunk.SimpleChunk;
+import com.derongan.minecraft.looty.world.entity.creation.EntityItemCreationStrategy;
 import com.derongan.minecraft.looty.world.item.Item;
 import com.derongan.minecraft.looty.world.item.ItemManager;
-import com.derongan.minecraft.looty.world.chunk.ChunkUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Entity;
 
@@ -37,5 +39,30 @@ public class EntityItemManagerImpl implements EntityItemManager {
     @Override
     public void unloadEntities(Chunk chunk) {
         loadedEntities.getOrDefault(ChunkUtils.toSimpleChunk(chunk), Collections.emptyList()).forEach(Entity::remove);
+    }
+
+    @Override
+    public void start() {
+        Bukkit.getServer().getWorlds().forEach(a->{
+            for (Chunk loadedChunk : a.getLoadedChunks()) {
+                loadEntities(loadedChunk);
+            }
+        });
+    }
+
+    @Override
+    public void stop() {
+        Bukkit.getServer().getWorlds().forEach(a->{
+            for (Chunk loadedChunk : a.getLoadedChunks()) {
+                unloadEntities(loadedChunk);
+            }
+        });
+
+        //Verification
+        loadedEntities.values().forEach(a->{
+            if(!a.isEmpty()){
+                throw new IllegalStateException("Entities should only exist for loaded chunks");
+            }
+        });
     }
 }

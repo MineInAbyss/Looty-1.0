@@ -1,4 +1,4 @@
-package com.derongan.minecraft.looty.world.entity;
+package com.derongan.minecraft.looty.world.entity.creation;
 
 import com.derongan.minecraft.looty.world.item.Item;
 import org.bukkit.entity.Entity;

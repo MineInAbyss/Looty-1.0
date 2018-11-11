@@ -1,6 +1,7 @@
-package com.derongan.minecraft.looty.world.entity;
+package com.derongan.minecraft.looty.world.entity.creation.strategies;
 
 import com.derongan.minecraft.looty.world.chunk.SimpleLocation;
+import com.derongan.minecraft.looty.world.entity.creation.EntityItemCreationStrategy;
 import com.derongan.minecraft.looty.world.item.Item;
 import org.bukkit.Bukkit;
 import org.bukkit.World;

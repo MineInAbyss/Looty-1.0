@@ -8,6 +8,7 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
@@ -21,6 +22,7 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
+    compileOnly project(":annotations")
 }
 
 import org.apache.tools.ant.filters.ReplaceTokens
@@ -30,3 +32,10 @@ processResources {
         filter ReplaceTokens, tokens: [version: version]
     }
 }
+
+task copyJar(type: Copy) {
+    from jar // here it automatically reads jar file produced from jar task
+    into '/srv/craftbukkit/plugins/'
+}
+
+build.dependsOn copyJar
