@@ -1,22 +1,31 @@
 package com.derongan.minecraft.looty.item.items;
 
 import com.derongan.minecraft.looty.item.ItemRarity;
+import com.derongan.minecraft.looty.item.behaviour.EventItemBehaviour;
 import com.derongan.minecraft.looty.item.behaviour.ItemBehaviour;
+import com.derongan.minecraft.looty.item.behaviour.TypedItemBehaviour;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import org.bukkit.Material;
+import org.bukkit.event.Event;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class ItemTypeBuilder {
     private String name;
     private List<String> lore;
     private Material material;
     private short durability;
+
+    Multimap<Class<? extends Event>, ItemBehaviour> eventItemBehaviourMap;
     private Collection<ItemBehaviour> behaviours;
     private ItemRarity rarity;
 
     public ItemTypeBuilder() {
+        this.eventItemBehaviourMap = ArrayListMultimap.create();
         this.behaviours = new ArrayList<>();
     }
 
@@ -45,8 +54,16 @@ public class ItemTypeBuilder {
         return this;
     }
 
-    public ItemTypeBuilder addBehaviour(ItemBehaviour behaviour) {
-        behaviours.add(behaviour);
+
+    public <T extends Event> ItemTypeBuilder addBehaviour(EventItemBehaviour<T> behaviour, Class<T> clazz) {
+        eventItemBehaviourMap.put(clazz, behaviour);
+        return this;
+    }
+
+    public ItemTypeBuilder addBehaviour(Stream<TypedItemBehaviour> behaviourStream) {
+        behaviourStream.forEach(a-> {
+            eventItemBehaviourMap.put(a.getType(), a);
+        });
         return this;
     }
 
@@ -56,7 +73,7 @@ public class ItemTypeBuilder {
         //TODO force not null on some of these
         type.name = name;
         type.lore = lore;
-        type.behaviours = behaviours;
+        type.behaviours = eventItemBehaviourMap;
         type.durability = durability;
         type.material = material;
         type.rarity = rarity;
@@ -69,7 +86,7 @@ public class ItemTypeBuilder {
         private List<String> lore;
         private Material material;
         private short durability;
-        private Collection<ItemBehaviour> behaviours;
+        private Multimap<Class<? extends Event>, ItemBehaviour> behaviours;
         private ItemRarity rarity;
 
         @Override
@@ -93,8 +110,8 @@ public class ItemTypeBuilder {
         }
 
         @Override
-        public Collection<ItemBehaviour> getBehaviours() {
-            return behaviours;
+        public Collection<ItemBehaviour> getBehaviours(Class<? extends Event> type) {
+            return behaviours.get(type);
         }
 
         @Override

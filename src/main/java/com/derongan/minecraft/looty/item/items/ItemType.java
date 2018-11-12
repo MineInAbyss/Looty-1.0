@@ -3,6 +3,7 @@ package com.derongan.minecraft.looty.item.items;
 import com.derongan.minecraft.looty.item.ItemRarity;
 import com.derongan.minecraft.looty.item.behaviour.ItemBehaviour;
 import org.bukkit.Material;
+import org.bukkit.event.Event;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,7 +34,7 @@ public interface ItemType {
     /**
      * Gets the behaviours assigned to this item
      */
-    Collection<ItemBehaviour> getBehaviours();
+    Collection<ItemBehaviour> getBehaviours(Class<? extends Event> type);
 
     /**
      * Gets the rarity of this item

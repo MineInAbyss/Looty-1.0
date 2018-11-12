@@ -6,9 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ItemRegistrarImpl implements ItemRegistrar {
     private Map<ItemTypeKey, ItemType> itemTypes;
@@ -32,6 +30,10 @@ public class ItemRegistrarImpl implements ItemRegistrar {
         return Optional.ofNullable(itemTypes.get(new ItemTypeKey(itemStack)));
     }
 
+    @Override
+    public Collection<ItemType> getAllTypes() {
+        return Collections.unmodifiableCollection(itemTypes.values());
+    }
 
     private class ItemTypeKey {
         private Material material;
