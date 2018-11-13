@@ -1,0 +1,33 @@
+name: Blaze Reap
+lore: ["An abnormally large pickaxe", "that contains Everlasting Gunpowder."]
+rarity: first
+material: diamondpickaxe
+dur: 5
+attributes:
+  uses: 5
+events:
+- kind: left
+  target: [block, entity]
+  action:
+  - target: @uses
+    effects:
+    - decrement: 1
+  - target:
+      kind: area
+      size: 5
+      shape: sphere
+      center: @e
+    effects:
+    - damage: 5
+  - target:
+      kind: [@b, @e]
+    effects:
+    - particle: EXPLOSION_LARGE
+    - sound: THUNDER
+- kind: right
+  target: [air, block, entity]
+  action:
+  - target:
+      kind: player
+    effects:
+    - message: The pickaxe has enough gunpowder for @uses more swings

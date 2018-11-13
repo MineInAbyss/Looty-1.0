@@ -1,11 +1,8 @@
-package com.derongan.minecraft.looty.item.items;
+package com.derongan.minecraft.looty.item.handling.items;
 
-import com.derongan.minecraft.looty.item.ItemRarity;
-import com.derongan.minecraft.looty.item.behaviour.ItemBehaviour;
+import com.derongan.minecraft.looty.item.handling.ItemRarity;
 import org.bukkit.Material;
-import org.bukkit.event.Event;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface ItemType {
@@ -30,11 +27,6 @@ public interface ItemType {
      * TODO in 1.14 we can replace this with model nbt data!
      */
     short getDurability();
-
-    /**
-     * Gets the behaviours assigned to this item
-     */
-    Collection<ItemBehaviour> getBehaviours(Class<? extends Event> type);
 
     /**
      * Gets the rarity of this item

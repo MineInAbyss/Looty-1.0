@@ -1,6 +1,6 @@
-package com.derongan.minecraft.looty.item;
+package com.derongan.minecraft.looty.item.handling;
 
-import com.derongan.minecraft.looty.item.items.ItemType;
+import com.derongan.minecraft.looty.item.handling.items.ItemType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
