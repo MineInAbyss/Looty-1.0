@@ -1,8 +1,11 @@
 package com.derongan.minecraft.looty.item.handling.items;
 
+import com.derongan.minecraft.looty.item.ItemAction;
+import com.derongan.minecraft.looty.item.handling.ActionType;
 import com.derongan.minecraft.looty.item.handling.ItemRarity;
 import org.bukkit.Material;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface ItemType {
@@ -32,4 +35,9 @@ public interface ItemType {
      * Gets the rarity of this item
      */
     ItemRarity getRarity();
+
+    /**
+     * Get the actions for this event type
+     */
+    Collection<ItemAction> getActions(ActionType actionType);
 }

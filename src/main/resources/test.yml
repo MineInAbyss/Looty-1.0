@@ -13,7 +13,7 @@ events:
     effects:
     - decrement: 1
   - target:
-      kind: area
+      kind: areaMapper
       size: 5
       shape: sphere
       center: @e

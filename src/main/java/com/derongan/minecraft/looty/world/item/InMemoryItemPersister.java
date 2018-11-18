@@ -1,8 +1,8 @@
 package com.derongan.minecraft.looty.world.item;
 
 import com.derongan.minecraft.looty.world.chunk.ChunkUtils;
-import com.derongan.minecraft.looty.world.chunk.SimpleLocation;
 import com.derongan.minecraft.looty.world.chunk.SimpleChunk;
+import com.derongan.minecraft.looty.world.chunk.SimpleLocation;
 
 import java.util.*;
 
@@ -23,7 +23,7 @@ public class InMemoryItemPersister implements ItemPersiter {
         if(itemMap.get(item.getLocation()) == null){
             itemMap.put(item.getLocation(), item);
         } else {
-            throw new IllegalStateException("You cannot add an item at a location that already contains an item");
+            throw new IllegalStateException("You cannot add an item at a ownerMapper that already contains an item");
         }
     }
 

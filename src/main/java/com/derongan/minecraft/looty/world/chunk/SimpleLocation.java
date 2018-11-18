@@ -2,7 +2,7 @@ package com.derongan.minecraft.looty.world.chunk;
 
 /**
  * Instead of using {@link org.bukkit.Location} we create
- * a location that is bound to integer values. Additionally
+ * a ownerMapper that is bound to integer values. Additionally
  * it does not require a world instance but rather just a world name
  */
 public class SimpleLocation {
