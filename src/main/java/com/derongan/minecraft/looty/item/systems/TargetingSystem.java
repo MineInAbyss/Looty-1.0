@@ -6,6 +6,8 @@ import com.badlogic.ashley.core.Family;
 import com.derongan.minecraft.looty.item.ActionTarget;
 import com.derongan.minecraft.looty.item.components.*;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +24,7 @@ public class TargetingSystem extends IteratingPeriodAwareSystem {
     private static final ComponentMapper<ActionTargetComponent> actionTargetMapper = ComponentMapper.getFor(ActionTargetComponent.class);
     private static final ComponentMapper<SelfTargetingComponent> selfTargetingMapper = ComponentMapper.getFor(SelfTargetingComponent.class);
     private static final ComponentMapper<LocationTargetsComponent> locationTargetsMapper = ComponentMapper.getFor(LocationTargetsComponent.class);
+    private static final ComponentMapper<BeamComponent> beamMapper = ComponentMapper.getFor(BeamComponent.class);
 
 
     public TargetingSystem(int priority) {
@@ -97,13 +100,19 @@ public class TargetingSystem extends IteratingPeriodAwareSystem {
             radius = .5;
         }
 
-        for (int x = (int) Math.floor(-radius); x < radius; x++) {
-            for (int y = (int) Math.floor(-radius); y < radius; y++) {
-                for (int z = (int) Math.floor(-radius); z < radius; z++) {
-                    int distanceSquared = (x * x + y * y + z * z);
+        if (beamMapper.has(entity)) {
+            //TODO stop assuming its the player. Maybe move outside for reusability
+            Player player = (Player) itemOwnerMapper.get(entity).owner;
+            player.getLineOfSight(null, beamMapper.get(entity).length).stream().map(Block::getLocation).forEach(targets::addTargetLocation);
+        } else {
+            for (int x = (int) Math.floor(-radius); x < radius; x++) {
+                for (int y = (int) Math.floor(-radius); y < radius; y++) {
+                    for (int z = (int) Math.floor(-radius); z < radius; z++) {
+                        int distanceSquared = (x * x + y * y + z * z);
 
-                    if (distanceSquared < radius * radius) {
-                        targets.addTargetLocation(targetLocation.clone().add(x, y, z));
+                        if (distanceSquared < radius * radius) {
+                            targets.addTargetLocation(targetLocation.clone().add(x, y, z));
+                        }
                     }
                 }
             }
@@ -120,10 +129,8 @@ public class TargetingSystem extends IteratingPeriodAwareSystem {
         Location targetLocation = actionTargetMapper.get(entity).location;
         float radius;
 
-        //TODO this may be too restrictive
         int limit = 100;
 
-        //TODO right now this is hacky and just
         if (areaMapper.has(entity)) {
             radius = areaMapper.get(entity).radius;
         } else {
@@ -131,12 +138,21 @@ public class TargetingSystem extends IteratingPeriodAwareSystem {
             limit = 1;
         }
 
-        targetLocation.getWorld()
-                .getNearbyEntities(targetLocation, radius, radius, radius, a -> playerFilter(entity, a))
-                .stream()
-                .sorted(Comparator.comparingDouble(a -> targetLocation.toVector().distance(a.getLocation().toVector())))
-                .limit(limit)
-                .forEach(targets::addTargetEntity);
+        if (beamMapper.has(entity)) {
+            //TODO stop assuming its the player. Maybe move outside for reusability
+            Player player = (Player) itemOwnerMapper.get(entity).owner;
+            player.getLineOfSight(null, beamMapper.get(entity).length).stream().flatMap(a->{
+                return player.getWorld().getNearbyEntities(a.getLocation(), radius, radius, radius).stream();
+            }).filter(a->playerFilter(entity, a)).forEach(targets::addTargetEntity);
+        } else {
+
+            targetLocation.getWorld()
+                    .getNearbyEntities(targetLocation, radius, radius, radius, a -> playerFilter(entity, a))
+                    .stream()
+                    .sorted(Comparator.comparingDouble(a -> targetLocation.toVector().distance(a.getLocation().toVector())))
+                    .limit(limit)
+                    .forEach(targets::addTargetEntity);
+        }
     }
 
     private boolean playerFilter(Entity entity, org.bukkit.entity.Entity a) {
