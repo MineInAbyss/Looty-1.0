@@ -27,9 +27,12 @@ public class ItemRegistrarImpl implements ItemRegistrar {
 
     @Override
     public Optional<ItemType> getItemType(ItemStack itemStack) {
-        ItemMeta meta = itemStack.getItemMeta();
+        if(itemStack == null){
+            return Optional.empty();
+        }
 
-        if(meta.isUnbreakable()) {
+        ItemMeta meta = itemStack.getItemMeta();
+        if(meta != null && meta.isUnbreakable()) {
             return Optional.ofNullable(itemTypes.get(new ItemTypeKey(itemStack)));
         } else {
             return Optional.empty();
