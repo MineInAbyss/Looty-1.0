@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.derongan.minecraft.looty.item.handling.ItemPlayerEventListener;
 import com.derongan.minecraft.looty.item.handling.ItemRegistrar;
 import com.derongan.minecraft.looty.item.handling.ItemRegistrarImpl;
+import com.derongan.minecraft.looty.item.handling.items.ItemType;
 import com.derongan.minecraft.looty.item.systems.*;
 import com.derongan.minecraft.looty.world.chunk.ChunkListener;
 import com.derongan.minecraft.looty.world.entity.EntityItemManager;
@@ -15,6 +16,13 @@ import com.derongan.minecraft.looty.world.item.ItemManagerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 public final class Looty extends JavaPlugin {
     private ItemManager itemManager;
@@ -33,7 +41,9 @@ public final class Looty extends JavaPlugin {
         registerListeners();
 
 
-        new TestItems().registerAllTests(itemRegistrar);
+//        new TestItems().registerAllTests(itemRegistrar);
+
+        loadConfigItems();
 
         //Set up engine
         engine.addSystem(new TargetingSystem(0));
@@ -50,6 +60,21 @@ public final class Looty extends JavaPlugin {
         }, 0, 1);
     }
 
+    private void loadConfigItems(){
+        ItemConstructor constructor = new ItemConstructor();
+        for (File file : getDataFolder().listFiles()) {
+            try {
+                Map<String, Object> map = new Yaml().load(new FileInputStream(file));
+                ItemType type = constructor.constructItemTypeFromMap(map);
+
+                itemRegistrar.registerItem(type);
+            } catch (IllegalAccessException | FileNotFoundException | InvocationTargetException | ClassNotFoundException e) {
+                getLogger().warning(String.format("Failed to load %s!", file.getName()));
+                getLogger().warning(e.toString());
+            }
+        }
+    }
+
     public static Engine getEngine() {
         return engine;
     }
@@ -62,8 +87,8 @@ public final class Looty extends JavaPlugin {
         itemRegistrar = new ItemRegistrarImpl();
 
         ItemCommandExecutor executor = new ItemCommandExecutor(itemRegistrar);
-        this.getCommand("relic").setExecutor(executor);
-        this.getCommand("relics").setExecutor(executor);
+        this.getCommand("looty").setExecutor(executor);
+        this.getCommand("looties").setExecutor(executor);
     }
 
     private void initializeEntityItemManager() {

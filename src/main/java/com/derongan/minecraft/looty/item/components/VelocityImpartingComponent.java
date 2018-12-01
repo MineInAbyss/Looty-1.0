@@ -17,10 +17,6 @@ public class VelocityImpartingComponent implements Component {
         this.from = from;
     }
 
-    public static ComponentFactory create(double strength) {
-        return () -> new VelocityImpartingComponent(strength, From.OWNER);
-    }
-
     public static ComponentFactory create(double strength, From from) {
         return () -> new VelocityImpartingComponent(strength, from);
     }

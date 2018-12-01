@@ -3,13 +3,13 @@ package com.derongan.minecraft.looty.item.components;
 import com.badlogic.ashley.core.Component;
 
 public class DamageComponent implements Component {
-    public float amount;
+    public double amount;
 
-    private DamageComponent(float amount) {
+    private DamageComponent(double amount) {
         this.amount = amount;
     }
 
-    public static ComponentFactory create(float damage){
+    public static ComponentFactory create(double damage){
         return ()->new DamageComponent(damage);
     }
 }

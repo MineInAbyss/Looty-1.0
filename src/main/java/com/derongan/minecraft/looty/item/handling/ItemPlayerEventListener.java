@@ -35,19 +35,19 @@ public class ItemPlayerEventListener implements Listener {
     @EventHandler
     public void onPlayerEvent(PlayerInteractEvent event) {
         if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && event.getHand() == EquipmentSlot.HAND) {
-            doActions(event, event.getPlayer(), ActionType.RIGHT);
+            doActions(event, event.getPlayer(), ActionTrigger.RIGHT);
         }
     }
 
     @EventHandler
     public void onPlayerAnimationEvent(PlayerAnimationEvent event) {
         if (event.getAnimationType() == PlayerAnimationType.ARM_SWING) {
-            doActions(event, event.getPlayer(), ActionType.LEFT);
+            doActions(event, event.getPlayer(), ActionTrigger.LEFT);
         }
     }
 
 
-    private void doActions(Cancellable event, Player player, ActionType type) {
+    private void doActions(Cancellable event, Player player, ActionTrigger type) {
         Engine engine = Looty.getEngine();
 
         RayTraceResult rayTraceResult = player

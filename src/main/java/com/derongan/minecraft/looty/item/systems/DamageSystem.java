@@ -23,7 +23,7 @@ public class DamageSystem extends IteratingPeriodAwareSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        float damage = damageMapper.get(entity).amount;
+        double damage = damageMapper.get(entity).amount;
         targetMapper.get(entity)
                 .getTargetEntities()
                 .stream()

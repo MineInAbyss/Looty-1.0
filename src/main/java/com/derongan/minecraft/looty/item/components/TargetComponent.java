@@ -9,15 +9,15 @@ import java.util.Set;
 public class TargetComponent implements Component {
     private Set<ActionTarget> target;
 
-    private TargetComponent(ActionTarget... targets) {
-        this.target = Sets.newHashSet(targets);
+    private TargetComponent(Set<ActionTarget> targets) {
+        this.target = targets;
     }
 
-    public Set<ActionTarget> getTarget() {
+    public Set<ActionTarget> getTargets() {
         return target;
     }
 
     public static ComponentFactory create(ActionTarget ... targets){
-        return ()->new TargetComponent(targets);
+        return ()->new TargetComponent(Sets.newHashSet(targets));
     }
 }

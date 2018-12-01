@@ -1,7 +1,7 @@
 package com.derongan.minecraft.looty.item.handling.items;
 
 import com.derongan.minecraft.looty.item.ItemAction;
-import com.derongan.minecraft.looty.item.handling.ActionType;
+import com.derongan.minecraft.looty.item.handling.ActionTrigger;
 import com.derongan.minecraft.looty.item.handling.ItemRarity;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -18,10 +18,10 @@ public class ItemTypeBuilder {
 
     private ItemRarity rarity;
 
-    private Multimap<ActionType, ItemAction> entities;
+    private Multimap<ActionTrigger, ItemAction> events;
 
     public ItemTypeBuilder() {
-        entities = ArrayListMultimap.create();
+        events = ArrayListMultimap.create();
     }
 
     public ItemTypeBuilder setName(String name) {
@@ -49,8 +49,8 @@ public class ItemTypeBuilder {
         return this;
     }
 
-    public ItemTypeBuilder addEntityAction(ItemAction itemAction) {
-        entities.put(itemAction.getActionType(), itemAction);
+    public ItemTypeBuilder addEntityAction(ItemAction itemAction, ActionTrigger actionTrigger) {
+        events.put(actionTrigger, itemAction);
         return this;
     }
 
@@ -64,7 +64,7 @@ public class ItemTypeBuilder {
         type.durability = durability;
         type.material = material;
         type.rarity = rarity;
-        type.entities = entities;
+        type.entities = events;
 
         return type;
     }
@@ -75,7 +75,7 @@ public class ItemTypeBuilder {
         private Material material;
         private short durability;
         private ItemRarity rarity;
-        private Multimap<ActionType, ItemAction> entities;
+        private Multimap<ActionTrigger, ItemAction> entities;
 
         @Override
         public String getName() {
@@ -103,8 +103,8 @@ public class ItemTypeBuilder {
         }
 
         @Override
-        public Collection<ItemAction> getActions(ActionType actionType) {
-            return entities.get(actionType);
+        public Collection<ItemAction> getActions(ActionTrigger actionTrigger) {
+            return entities.get(actionTrigger);
         }
 
         @Override

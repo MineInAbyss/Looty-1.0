@@ -36,7 +36,7 @@ public class TargetingSystem extends IteratingPeriodAwareSystem {
         Collection<ActionTarget> targetTypes;
 
         if (targetMapper.has(entity)) {
-            targetTypes = targetMapper.get(entity).getTarget();
+            targetTypes = targetMapper.get(entity).getTargets();
         } else {
             //TODO handle this better. The default for all should be LOCATION prob
             targetTypes = Collections.singleton(ActionTarget.LOCATION);
@@ -127,14 +127,14 @@ public class TargetingSystem extends IteratingPeriodAwareSystem {
         EntityTargetsComponent targets = getOrAddEntitiesTargetComponent(entity);
 
         Location targetLocation = actionTargetMapper.get(entity).location;
-        float radius;
+        double radius;
 
         int limit = 100;
 
         if (areaMapper.has(entity)) {
             radius = areaMapper.get(entity).radius;
         } else {
-            radius = .5f;
+            radius = .5;
             limit = 1;
         }
 

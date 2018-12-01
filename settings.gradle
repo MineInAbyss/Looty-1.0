@@ -1,2 +1,2 @@
-include ':annotations'
-project(':annotations').projectDir = file('../annotations')
+//include ':annotations'
+//project(':annotations').projectDir = file('../annotations')

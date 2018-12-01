@@ -24,7 +24,7 @@ public class ItemCommandExecutor implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
 
-            if (label.equals("relic")) {
+            if (command.getName().equals("looty")) {
                 if (args.length == 0) {
                     return false;
                 }
@@ -36,8 +36,8 @@ public class ItemCommandExecutor implements CommandExecutor {
                 }
             }
 
-            if (label.equals("relics")) {
-                player.sendMessage("Relics: " + registrar.getAllTypes().stream()
+            if (command.getName().equals("looties")) {
+                player.sendMessage("Items: " + registrar.getAllTypes().stream()
                         .map(a->a.getRarity().getColor() + a.getName())
                         .map(a -> a.replace(" ", "_"))
                         .collect(Collectors.joining(", ")));

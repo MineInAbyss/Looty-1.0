@@ -5,7 +5,7 @@ import com.derongan.minecraft.looty.item.ActionTarget;
 import com.derongan.minecraft.looty.item.ItemAction;
 import com.derongan.minecraft.looty.item.ItemActionTarget;
 import com.derongan.minecraft.looty.item.components.*;
-import com.derongan.minecraft.looty.item.handling.ActionType;
+import com.derongan.minecraft.looty.item.handling.ActionTrigger;
 import com.derongan.minecraft.looty.item.handling.ItemRarity;
 import com.derongan.minecraft.looty.item.handling.ItemRegistrar;
 import com.derongan.minecraft.looty.item.handling.items.ItemType;
@@ -16,7 +16,7 @@ import org.bukkit.Sound;
 
 import java.util.Arrays;
 
-class TestItems {
+public class TestItems {
     void registerAllTests(ItemRegistrar registrar) {
         registrar.registerItem(createSmoker());
         registrar.registerItem(createMessager());
@@ -26,12 +26,11 @@ class TestItems {
         registrar.registerItem(createPucker());
         registrar.registerItem(createBlazeReap());
         registrar.registerItem(createPushJumper());
-        registrar.registerItem(dogFighter());
+        registrar.registerItem(createDogFighter());
     }
 
-    private ItemType createBlazeReap() {
+    public static ItemType createBlazeReap() {
         ItemAction damageAction = ActionBuilder.create()
-                .setActionType(ActionType.LEFT)
                 .setTargets(ItemActionTarget.BLOCK, ItemActionTarget.ENTITY)
                 .add(TargetComponent.create(ActionTarget.ENTITY))
                 .add(SelfTargetingComponent.create())
@@ -40,7 +39,6 @@ class TestItems {
                 .build();
 
         ItemAction effectAction = ActionBuilder.create()
-                .setActionType(ActionType.LEFT)
                 .setTargets(ItemActionTarget.BLOCK, ItemActionTarget.ENTITY)
                 .add(TargetComponent.create(ActionTarget.BLOCK))
                 .add(ParticleComponent.create(Particle.EXPLOSION_HUGE))
@@ -53,14 +51,13 @@ class TestItems {
                 .setDurability(5)
                 .setRarity(ItemRarity.SPECIAL_GRADE)
                 .setLore(Arrays.asList("Big Pickaxe OK"))
-                .addEntityAction(damageAction)
-                .addEntityAction(effectAction)
+                .addEntityAction(damageAction, ActionTrigger.LEFT)
+                .addEntityAction(effectAction, ActionTrigger.LEFT)
                 .build();
     }
 
     private ItemType createPucker() {
         ItemAction damageAction = ActionBuilder.create()
-                .setActionType(ActionType.RIGHT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.ENTITY))
                 .add(BeamComponent.create(100))
@@ -69,16 +66,14 @@ class TestItems {
                 .build();
 
         ItemAction suckAction = ActionBuilder.create()
-                .setActionType(ActionType.RIGHT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.ENTITY))
                 .add(BeamComponent.create(100))
                 .add(AreaComponent.create(5))
-                .add(VelocityImpartingComponent.create(5))
+                .add(VelocityImpartingComponent.create(5, VelocityImpartingComponent.From.OWNER))
                 .build();
 
         ItemAction effectAction = ActionBuilder.create()
-                .setActionType(ActionType.RIGHT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.BLOCK))
                 .add(BeamComponent.create(100))
@@ -93,15 +88,14 @@ class TestItems {
                 .setDurability(7)
                 .setRarity(ItemRarity.SPECIAL_GRADE)
                 .setLore(Arrays.asList("Zoop"))
-                .addEntityAction(damageAction)
-                .addEntityAction(suckAction)
-                .addEntityAction(effectAction)
+                .addEntityAction(damageAction, ActionTrigger.RIGHT)
+                .addEntityAction(suckAction, ActionTrigger.RIGHT)
+                .addEntityAction(effectAction, ActionTrigger.RIGHT)
                 .build();
     }
 
-    private ItemType dogFighter() {
+    public static ItemType createDogFighter() {
         ItemAction damageAction = ActionBuilder.create()
-                .setActionType(ActionType.LEFT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.ENTITY))
                 .add(BeamComponent.create(100))
@@ -110,16 +104,14 @@ class TestItems {
                 .build();
 
         ItemAction suckAction = ActionBuilder.create()
-                .setActionType(ActionType.LEFT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.ENTITY))
                 .add(BeamComponent.create(100))
                 .add(AreaComponent.create(5))
-                .add(VelocityImpartingComponent.create(.2))
+                .add(VelocityImpartingComponent.create(.2, VelocityImpartingComponent.From.OWNER))
                 .build();
 
         ItemAction effectAction = ActionBuilder.create()
-                .setActionType(ActionType.LEFT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.BLOCK))
                 .add(BeamComponent.create(100))
@@ -129,7 +121,6 @@ class TestItems {
                 .build();
 
         ItemAction otherJump = ActionBuilder.create()
-                .setActionType(ActionType.RIGHT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.OWNER))
                 .add(VelocityImpartingComponent.create(-3, VelocityImpartingComponent.From.TARGET))
@@ -143,16 +134,15 @@ class TestItems {
                 .setDurability(5)
                 .setRarity(ItemRarity.TOOL)
                 .setLore(Arrays.asList("For Pew Pewing"))
-                .addEntityAction(damageAction)
-                .addEntityAction(suckAction)
-                .addEntityAction(effectAction)
-                .addEntityAction(otherJump)
+                .addEntityAction(damageAction, ActionTrigger.LEFT)
+                .addEntityAction(suckAction, ActionTrigger.LEFT)
+                .addEntityAction(effectAction, ActionTrigger.LEFT)
+                .addEntityAction(otherJump, ActionTrigger.RIGHT)
                 .build();
     }
 
     private ItemType createSucker() {
         ItemAction damageAction = ActionBuilder.create()
-                .setActionType(ActionType.RIGHT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.ENTITY))
                 .add(BeamComponent.create(100))
@@ -161,16 +151,14 @@ class TestItems {
                 .build();
 
         ItemAction suckAction = ActionBuilder.create()
-                .setActionType(ActionType.RIGHT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.ENTITY))
                 .add(BeamComponent.create(100))
                 .add(AreaComponent.create(5))
-                .add(VelocityImpartingComponent.create(-5))
+                .add(VelocityImpartingComponent.create(-5, VelocityImpartingComponent.From.OWNER))
                 .build();
 
         ItemAction effectAction = ActionBuilder.create()
-                .setActionType(ActionType.RIGHT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.BLOCK))
                 .add(BeamComponent.create(100))
@@ -185,15 +173,14 @@ class TestItems {
                 .setDurability(5)
                 .setRarity(ItemRarity.SPECIAL_GRADE)
                 .setLore(Arrays.asList("Sloop"))
-                .addEntityAction(damageAction)
-                .addEntityAction(suckAction)
-                .addEntityAction(effectAction)
+                .addEntityAction(damageAction, ActionTrigger.RIGHT)
+                .addEntityAction(suckAction, ActionTrigger.RIGHT)
+                .addEntityAction(effectAction, ActionTrigger.RIGHT)
                 .build();
     }
 
     private ItemType createIncinerator() {
         ItemAction damageAction = ActionBuilder.create()
-                .setActionType(ActionType.RIGHT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.ENTITY))
                 .add(BeamComponent.create(100))
@@ -202,7 +189,6 @@ class TestItems {
                 .build();
 
         ItemAction effectAction = ActionBuilder.create()
-                .setActionType(ActionType.RIGHT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.BLOCK))
                 .add(BeamComponent.create(100))
@@ -217,21 +203,19 @@ class TestItems {
                 .setDurability(5)
                 .setRarity(ItemRarity.SPECIAL_GRADE)
                 .setLore(Arrays.asList("Kabooom ur dead ha"))
-                .addEntityAction(damageAction)
-                .addEntityAction(effectAction)
+                .addEntityAction(damageAction, ActionTrigger.RIGHT)
+                .addEntityAction(effectAction, ActionTrigger.RIGHT)
                 .build();
     }
 
     private ItemType createPushStick() {
         ItemAction pushAction = ActionBuilder.create()
-                .setActionType(ActionType.LEFT)
                 .setTargets(ItemActionTarget.ENTITY)
                 .add(TargetComponent.create(ActionTarget.ENTITY))
-                .add(VelocityImpartingComponent.create(2))
+                .add(VelocityImpartingComponent.create(2, VelocityImpartingComponent.From.OWNER))
                 .build();
 
         ItemAction jumpAction = ActionBuilder.create()
-                .setActionType(ActionType.LEFT)
                 .setTargets(ItemActionTarget.BLOCK)
                 .add(TargetComponent.create(ActionTarget.OWNER))
                 .add(VelocityImpartingComponent.create(2, VelocityImpartingComponent.From.TARGET))
@@ -243,21 +227,19 @@ class TestItems {
                 .setDurability(5)
                 .setRarity(ItemRarity.FOURTH_GRADE)
                 .setLore(Arrays.asList("Poosh"))
-                .addEntityAction(pushAction)
-                .addEntityAction(jumpAction)
+                .addEntityAction(pushAction, ActionTrigger.LEFT)
+                .addEntityAction(jumpAction, ActionTrigger.LEFT)
                 .build();
     }
 
     private ItemType createPushJumper() {
         ItemAction jumpAction = ActionBuilder.create()
-                .setActionType(ActionType.LEFT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.OWNER))
                 .add(VelocityImpartingComponent.create(4, VelocityImpartingComponent.From.TARGET))
                 .build();
 
         ItemAction otherJump = ActionBuilder.create()
-                .setActionType(ActionType.RIGHT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(TargetComponent.create(ActionTarget.OWNER))
                 .add(VelocityImpartingComponent.create(-4, VelocityImpartingComponent.From.TARGET))
@@ -269,14 +251,13 @@ class TestItems {
                 .setDurability(5)
                 .setRarity(ItemRarity.FOURTH_GRADE)
                 .setLore(Arrays.asList("POOSH MORE"))
-                .addEntityAction(jumpAction)
-                .addEntityAction(otherJump)
+                .addEntityAction(jumpAction, ActionTrigger.LEFT)
+                .addEntityAction(otherJump, ActionTrigger.RIGHT)
                 .build();
     }
 
     private ItemType createMessager() {
         ItemAction messageAction = ActionBuilder.create()
-                .setActionType(ActionType.LEFT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(MessageComponent.create("Hello world"))
                 .build();
@@ -287,14 +268,13 @@ class TestItems {
                 .setDurability(5)
                 .setRarity(ItemRarity.THIRD_GRADE)
                 .setLore(Arrays.asList("Hello", "You"))
-                .addEntityAction(messageAction)
+                .addEntityAction(messageAction, ActionTrigger.LEFT)
                 .build();
     }
 
 
     private ItemType createSmoker() {
         ItemAction smokerEffects = ActionBuilder.create()
-                .setActionType(ActionType.LEFT)
                 .setTargets(ItemActionTarget.ALL)
                 .add(AreaComponent.create(3))
                 .add(ParticleComponent.create(Particle.SMOKE_LARGE))
@@ -305,7 +285,6 @@ class TestItems {
 
         ItemAction smokerDamage = ActionBuilder.create()
                 .setTargets(ItemActionTarget.ALL)
-                .setActionType(ActionType.LEFT)
                 .add(AreaComponent.create(3))
                 .add(SelfTargetingComponent.create())
                 .add(IgnitingComponent.create())
@@ -320,8 +299,8 @@ class TestItems {
                 .setDurability(5)
                 .setMaterial(Material.STICK)
                 .setRarity(ItemRarity.FIRST_GRADE)
-                .addEntityAction(smokerEffects)
-                .addEntityAction(smokerDamage)
+                .addEntityAction(smokerEffects, ActionTrigger.LEFT)
+                .addEntityAction(smokerDamage, ActionTrigger.LEFT)
                 .build();
     }
 }
