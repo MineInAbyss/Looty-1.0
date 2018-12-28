@@ -1,10 +1,10 @@
 package com.derongan.minecraft.looty;
 
 import com.badlogic.ashley.core.Engine;
+import com.derongan.minecraft.looty.item.ItemType;
 import com.derongan.minecraft.looty.item.handling.ItemPlayerEventListener;
 import com.derongan.minecraft.looty.item.handling.ItemRegistrar;
 import com.derongan.minecraft.looty.item.handling.ItemRegistrarImpl;
-import com.derongan.minecraft.looty.item.handling.items.ItemType;
 import com.derongan.minecraft.looty.item.systems.*;
 import com.derongan.minecraft.looty.world.chunk.ChunkListener;
 import com.derongan.minecraft.looty.world.entity.EntityItemManager;

@@ -1,7 +1,6 @@
 package com.derongan.minecraft.looty.item.components;
 
 import com.badlogic.ashley.core.Component;
-import com.derongan.minecraft.looty.item.ActionTarget;
 import com.google.common.collect.Sets;
 
 import java.util.Set;

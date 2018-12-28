@@ -1,6 +1,6 @@
 package com.derongan.minecraft.looty.item.handling;
 
-import com.derongan.minecraft.looty.item.handling.items.ItemType;
+import com.derongan.minecraft.looty.item.ItemType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;

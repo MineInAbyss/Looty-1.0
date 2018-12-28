@@ -3,7 +3,6 @@ package com.derongan.minecraft.looty.item.systems;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.derongan.minecraft.looty.item.ActionTarget;
 import com.derongan.minecraft.looty.item.components.*;
 import org.bukkit.Location;
 import org.bukkit.block.Block;

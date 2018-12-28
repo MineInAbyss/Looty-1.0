@@ -1,6 +1,5 @@
-package com.derongan.minecraft.looty.item.handling.items;
+package com.derongan.minecraft.looty.item;
 
-import com.derongan.minecraft.looty.item.ItemAction;
 import com.derongan.minecraft.looty.item.handling.ActionTrigger;
 import com.derongan.minecraft.looty.item.handling.ItemRarity;
 import com.google.common.collect.ArrayListMultimap;

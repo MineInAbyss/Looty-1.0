@@ -1,6 +1,5 @@
-package com.derongan.minecraft.looty.item.handling.items;
+package com.derongan.minecraft.looty.item;
 
-import com.derongan.minecraft.looty.item.ItemAction;
 import com.derongan.minecraft.looty.item.handling.ActionTrigger;
 import com.derongan.minecraft.looty.item.handling.ItemRarity;
 import org.bukkit.Material;
@@ -40,4 +39,9 @@ public interface ItemType {
      * Get the actions for this event type
      */
     Collection<ItemAction> getActions(ActionTrigger actionTrigger);
+
+
+    /**
+     * Get a specific variable value
+     */
 }

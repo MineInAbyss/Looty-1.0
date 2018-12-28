@@ -3,11 +3,11 @@ package com.derongan.minecraft.looty;
 import com.badlogic.ashley.core.Component;
 import com.derongan.minecraft.looty.item.ActionBuilder;
 import com.derongan.minecraft.looty.item.ItemActionTarget;
+import com.derongan.minecraft.looty.item.ItemType;
+import com.derongan.minecraft.looty.item.ItemTypeBuilder;
 import com.derongan.minecraft.looty.item.components.ComponentFactory;
 import com.derongan.minecraft.looty.item.handling.ActionTrigger;
 import com.derongan.minecraft.looty.item.handling.ItemRarity;
-import com.derongan.minecraft.looty.item.handling.items.ItemType;
-import com.derongan.minecraft.looty.item.handling.items.ItemTypeBuilder;
 import org.bukkit.Material;
 
 import java.lang.reflect.Array;

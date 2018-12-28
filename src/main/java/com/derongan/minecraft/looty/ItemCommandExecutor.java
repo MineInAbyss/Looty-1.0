@@ -1,7 +1,7 @@
 package com.derongan.minecraft.looty;
 
+import com.derongan.minecraft.looty.item.ItemType;
 import com.derongan.minecraft.looty.item.handling.ItemRegistrar;
-import com.derongan.minecraft.looty.item.handling.items.ItemType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

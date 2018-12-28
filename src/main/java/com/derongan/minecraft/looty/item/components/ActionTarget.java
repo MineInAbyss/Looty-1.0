@@ -1,4 +1,4 @@
-package com.derongan.minecraft.looty.item;
+package com.derongan.minecraft.looty.item.components;
 
 public enum ActionTarget {
     ENTITY,

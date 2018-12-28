@@ -1,6 +1,6 @@
 package com.derongan.minecraft.looty;
 
-import com.derongan.minecraft.looty.item.ActionTarget;
+import com.derongan.minecraft.looty.item.components.ActionTarget;
 import com.derongan.minecraft.looty.item.components.TargetComponent;
 import com.derongan.minecraft.looty.item.handling.ItemRegistrarImpl;
 import org.junit.Test;
