@@ -1,4 +1,4 @@
-package com.derongan.minecraft.looty.item.components;
+package com.derongan.minecraft.looty.item.components.internal;
 
 import org.bukkit.entity.Entity;
 

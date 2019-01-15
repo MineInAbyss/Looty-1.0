@@ -3,10 +3,10 @@ package com.derongan.minecraft.looty.item.systems;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.derongan.minecraft.looty.item.components.EntityTargetsComponent;
-import com.derongan.minecraft.looty.item.components.ItemOwnerComponent;
 import com.derongan.minecraft.looty.item.components.MessageComponent;
 import com.derongan.minecraft.looty.item.components.TargetComponent;
+import com.derongan.minecraft.looty.item.components.internal.EntityTargetsComponent;
+import com.derongan.minecraft.looty.item.components.internal.ItemOwnerComponent;
 
 public class MessageSystem extends IteratingPeriodAwareSystem {
     private static final ComponentMapper<MessageComponent> messageMapper = ComponentMapper.getFor(MessageComponent.class);

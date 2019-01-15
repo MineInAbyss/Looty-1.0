@@ -6,6 +6,7 @@ import com.derongan.minecraft.looty.item.handling.ItemPlayerEventListener;
 import com.derongan.minecraft.looty.item.handling.ItemRegistrar;
 import com.derongan.minecraft.looty.item.handling.ItemRegistrarImpl;
 import com.derongan.minecraft.looty.item.systems.*;
+import com.derongan.minecraft.looty.item.systems.projectile.ProjectileLaunchingSystem;
 import com.derongan.minecraft.looty.world.chunk.ChunkListener;
 import com.derongan.minecraft.looty.world.entity.EntityItemManager;
 import com.derongan.minecraft.looty.world.entity.EntityItemManagerImpl;
@@ -47,6 +48,7 @@ public final class Looty extends JavaPlugin {
 
         //Set up engine
         engine.addSystem(new TargetingSystem(0));
+        engine.addSystem(new ProjectileLaunchingSystem(1));
         engine.addSystem(new ParticleSystem(1));
         engine.addSystem(new SoundSystem(2));
         engine.addSystem(new DamageSystem(3));

@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.derongan.minecraft.looty.item.components.*;
+import com.derongan.minecraft.looty.item.components.internal.*;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -23,6 +24,7 @@ public class TargetingSystem extends IteratingPeriodAwareSystem {
     private static final ComponentMapper<ActionTargetComponent> actionTargetMapper = ComponentMapper.getFor(ActionTargetComponent.class);
     private static final ComponentMapper<SelfTargetingComponent> selfTargetingMapper = ComponentMapper.getFor(SelfTargetingComponent.class);
     private static final ComponentMapper<LocationTargetsComponent> locationTargetsMapper = ComponentMapper.getFor(LocationTargetsComponent.class);
+    private static final ComponentMapper<AttachedEntityComponent> attachmentMapper = ComponentMapper.getFor(AttachedEntityComponent.class);
     private static final ComponentMapper<BeamComponent> beamMapper = ComponentMapper.getFor(BeamComponent.class);
 
 
@@ -80,6 +82,9 @@ public class TargetingSystem extends IteratingPeriodAwareSystem {
                 break;
             case BLOCK:
                 injectBlocks(entity);
+                break;
+            case ATTACHMENT:
+                injectAttachment(entity);
                 break;
             default:
                 injectDefaultLocation(entity);
@@ -165,5 +170,12 @@ public class TargetingSystem extends IteratingPeriodAwareSystem {
     private void injectOwner(Entity entity) {
         EntityTargetsComponent targets = getOrAddEntitiesTargetComponent(entity);
         targets.addTargetEntity(itemOwnerMapper.get(entity).owner);
+    }
+
+    private void injectAttachment(Entity entity) {
+        if(attachmentMapper.has(entity)) {
+            EntityTargetsComponent targets = getOrAddEntitiesTargetComponent(entity);
+            targets.addTargetEntity(attachmentMapper.get(entity).entity);
+        }
     }
 }

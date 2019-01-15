@@ -5,8 +5,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.derongan.minecraft.looty.item.components.DamageComponent;
-import com.derongan.minecraft.looty.item.components.EntityTargetsComponent;
-import com.derongan.minecraft.looty.item.components.ItemOwnerComponent;
+import com.derongan.minecraft.looty.item.components.internal.EntityTargetsComponent;
+import com.derongan.minecraft.looty.item.components.internal.ItemOwnerComponent;
 import org.bukkit.entity.Damageable;
 
 

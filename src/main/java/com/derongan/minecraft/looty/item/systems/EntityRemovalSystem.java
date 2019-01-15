@@ -4,9 +4,9 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.derongan.minecraft.looty.item.components.EntityTargetsComponent;
-import com.derongan.minecraft.looty.item.components.LocationTargetsComponent;
 import com.derongan.minecraft.looty.item.components.PeriodicComponent;
+import com.derongan.minecraft.looty.item.components.internal.EntityTargetsComponent;
+import com.derongan.minecraft.looty.item.components.internal.LocationTargetsComponent;
 
 public class EntityRemovalSystem extends IteratingSystem {
     public static final ComponentMapper<PeriodicComponent> persistMapper = ComponentMapper.getFor(PeriodicComponent.class);

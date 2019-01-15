@@ -6,5 +6,6 @@ public enum ActionTarget {
     BLOCK,
     LOCATION,
     WORLD,
-    SELF
+    SELF,
+    ATTACHMENT
 }

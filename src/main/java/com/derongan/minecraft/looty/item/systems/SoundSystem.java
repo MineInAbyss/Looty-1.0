@@ -3,9 +3,9 @@ package com.derongan.minecraft.looty.item.systems;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.derongan.minecraft.looty.item.components.EntityTargetsComponent;
-import com.derongan.minecraft.looty.item.components.LocationTargetsComponent;
 import com.derongan.minecraft.looty.item.components.SoundComponent;
+import com.derongan.minecraft.looty.item.components.internal.EntityTargetsComponent;
+import com.derongan.minecraft.looty.item.components.internal.LocationTargetsComponent;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 
