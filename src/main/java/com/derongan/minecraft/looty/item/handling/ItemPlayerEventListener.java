@@ -7,15 +7,18 @@ import com.derongan.minecraft.looty.item.ItemAction;
 import com.derongan.minecraft.looty.item.ItemActionTarget;
 import com.derongan.minecraft.looty.item.components.internal.ActionTargetComponent;
 import com.derongan.minecraft.looty.item.components.internal.ItemOwnerComponent;
+import com.derongan.minecraft.looty.item.components.internal.ItemSourceComponent;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerAnimationType;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -27,9 +30,11 @@ import java.util.Optional;
 
 public class ItemPlayerEventListener implements Listener {
     private ItemRegistrar itemRegistrar;
+    private ProjectileRegistrar projectileRegistrar;
 
-    public ItemPlayerEventListener(ItemRegistrar itemRegistrar) {
+    public ItemPlayerEventListener(ItemRegistrar itemRegistrar, ProjectileRegistrar projectileRegistrar) {
         this.itemRegistrar = itemRegistrar;
+        this.projectileRegistrar = projectileRegistrar;
     }
 
     @EventHandler
@@ -46,10 +51,45 @@ public class ItemPlayerEventListener implements Listener {
         }
     }
 
+    /**
+     * Cancel projectile damage
+     * @param entityDamageByEntityEvent
+     */
+    @EventHandler
+    public void onDamageEvent(EntityDamageByEntityEvent entityDamageByEntityEvent){
+        if(projectileRegistrar.getItemType(entityDamageByEntityEvent.getDamager()).isPresent()){
+            entityDamageByEntityEvent.setDamage(0);
+        }
+    }
+
+    @EventHandler
+    public void onProjectileHitEvent(ProjectileHitEvent hitEvent) {
+        Projectile proj = hitEvent.getEntity();
+
+        projectileRegistrar.getItemType(proj).ifPresent(itemTypeAndOrigin -> {
+            Engine engine = Looty.getEngine();
+
+
+            itemTypeAndOrigin.itemType.getActions(ActionTrigger.PROJECTILE_HIT)
+                    .stream()
+                    .filter(c -> handlesTarget(c, hitEvent))
+                    .forEach(b -> {
+                        Entity entity = new Entity();
+                        b.getComponentFactories().forEach(c -> {
+                            entity.add(c.createComponent());
+                        });
+
+                        //TODO reuse origin?
+                        entity.add(new ItemOwnerComponent(itemTypeAndOrigin.origin));
+                        entity.add(new ActionTargetComponent(proj.getLocation()));
+
+                        engine.addEntity(entity);
+                    });
+        });
+    }
+
 
     private void doActions(Cancellable event, Player player, ActionTrigger type) {
-        Engine engine = Looty.getEngine();
-
         RayTraceResult rayTraceResult = player
                 .getWorld()
                 .rayTrace(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.NEVER, true, .1, (entity -> entity != player));
@@ -57,6 +97,8 @@ public class ItemPlayerEventListener implements Listener {
         ItemOwnerComponent owner = new ItemOwnerComponent(player);
 
         itemRegistrar.getItemType(getPlayerMainHand(player)).ifPresent(a -> {
+            Engine engine = Looty.getEngine();
+
             ActionTargetComponent target;
 
             if (rayTraceResult != null) {
@@ -64,6 +106,8 @@ public class ItemPlayerEventListener implements Listener {
             } else {
                 target = new ActionTargetComponent(player.getTargetBlock(null, 5).getLocation());
             }
+
+            ItemSourceComponent itemSourceComponent = new ItemSourceComponent(a);
 
             ActionTargetComponent finalTarget = target;
             a.getActions(type)
@@ -76,6 +120,7 @@ public class ItemPlayerEventListener implements Listener {
                         });
                         entity.add(owner);
                         entity.add(finalTarget);
+                        entity.add(itemSourceComponent);
                         engine.addEntity(entity);
                     });
 
@@ -90,6 +135,20 @@ public class ItemPlayerEventListener implements Listener {
             return action.getTargets().contains(ItemActionTarget.ALL) || action.getTargets().contains(ItemActionTarget.ENTITY);
         } else {
             return action.getTargets().contains(ItemActionTarget.ALL) || action.getTargets().contains(ItemActionTarget.LOCATION) || action.getTargets().contains(ItemActionTarget.BLOCK);
+        }
+    }
+
+    private boolean handlesTarget(ItemAction action, ProjectileHitEvent hitEvent){
+        if(action.getTargets().contains(ItemActionTarget.ALL)){
+            return true;
+        }
+
+        if(hitEvent.getHitBlock() != null){
+            return action.getTargets().contains(ItemActionTarget.BLOCK) || action.getTargets().contains(ItemActionTarget.LOCATION);
+        } else if (hitEvent.getHitEntity() != null){
+            return action.getTargets().contains(ItemActionTarget.ENTITY);
+        } else {
+            return action.getTargets().contains(ItemActionTarget.LOCATION);
         }
     }
 

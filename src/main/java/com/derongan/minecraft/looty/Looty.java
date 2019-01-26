@@ -5,6 +5,7 @@ import com.derongan.minecraft.looty.item.ItemType;
 import com.derongan.minecraft.looty.item.handling.ItemPlayerEventListener;
 import com.derongan.minecraft.looty.item.handling.ItemRegistrar;
 import com.derongan.minecraft.looty.item.handling.ItemRegistrarImpl;
+import com.derongan.minecraft.looty.item.handling.ProjectileRegistrar;
 import com.derongan.minecraft.looty.item.systems.*;
 import com.derongan.minecraft.looty.item.systems.projectile.ProjectileLaunchingSystem;
 import com.derongan.minecraft.looty.world.chunk.ChunkListener;
@@ -29,6 +30,7 @@ public final class Looty extends JavaPlugin {
     private ItemManager itemManager;
     private EntityItemManager entityItemManager;
     private ItemRegistrar itemRegistrar;
+    private ProjectileRegistrar projectileRegistrar;
     private static Engine engine = new Engine();
 
     @Override
@@ -48,7 +50,7 @@ public final class Looty extends JavaPlugin {
 
         //Set up engine
         engine.addSystem(new TargetingSystem(0));
-        engine.addSystem(new ProjectileLaunchingSystem(1));
+        engine.addSystem(new ProjectileLaunchingSystem(1, projectileRegistrar));
         engine.addSystem(new ParticleSystem(1));
         engine.addSystem(new SoundSystem(2));
         engine.addSystem(new DamageSystem(3));
@@ -88,6 +90,9 @@ public final class Looty extends JavaPlugin {
     private void initializeItemRegistrar() {
         itemRegistrar = new ItemRegistrarImpl();
 
+        //TODO this is getting a bit dirty
+        projectileRegistrar = new ProjectileRegistrar();
+
         ItemCommandExecutor executor = new ItemCommandExecutor(itemRegistrar);
         this.getCommand("looty").setExecutor(executor);
         this.getCommand("looties").setExecutor(executor);
@@ -102,7 +107,7 @@ public final class Looty extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new ChunkListener(entityItemManager), this);
 
-        ItemPlayerEventListener listener = new ItemPlayerEventListener(itemRegistrar);
+        ItemPlayerEventListener listener = new ItemPlayerEventListener(itemRegistrar, projectileRegistrar);
 
         pluginManager.registerEvents(listener, this);
     }
